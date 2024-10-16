@@ -454,14 +454,14 @@ int16_t ADS1X15::_readADC(uint16_t readmode)
     uint32_t start = millis();
     //  timeout == { 129, 65, 33, 17, 9, 5, 3, 2 }
     //  a few ms more than max conversion time.
-    uint8_t timeOut = (128 >> (_datarate >> 5)) + 1;
+    uint8_t timeOut = (128 >> (_datarate >> 5)) + 10;
     while (isBusy())
     {
-      yield();   //  wait for conversion; yield for ESP.
       if ( (millis() - start) > timeOut)
       {
         return ADS1X15_ERROR_TIMEOUT;
       }
+      yield();   //  wait for conversion; yield for ESP.
     }
   }
   else
